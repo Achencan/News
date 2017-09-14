@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">News314</string>
+    <string name="news_title">title</string>
+    <string name="news_source">source</string>
+    <string name="news_time">time</string>
+
+</resources>
