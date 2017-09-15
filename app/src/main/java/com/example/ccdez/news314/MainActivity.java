@@ -1,6 +1,11 @@
 package com.example.ccdez.news314;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -46,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         openNews();
 
+        updateNews();
+
         news_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -57,10 +64,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
 
-    private void openNews(){
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void openNews() {
 
         final Gson gson = new Gson();
         final Request request = new Request.Builder().get()
@@ -72,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 Response response;
                 try {
                     response = client.newCall(request).execute();
-                    if (response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         String content = response.body().string();
                         Bean bean = gson.fromJson(content, Bean.class);
                         Bean.Second second = bean.result;
@@ -90,4 +101,29 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    public void updateNews() {
+        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    private SensorEventListener listener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float xValue = event.values[0];
+            float yValue = event.values[1];
+            float zValue = event.values[2];
+
+            if (xValue > 12 || yValue >12 || zValue > 12){
+                openNews();
+                Toast.makeText(MainActivity.this, "已更新", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
 }
