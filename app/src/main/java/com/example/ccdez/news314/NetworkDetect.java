@@ -5,7 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by ccdez on 2017/9/13 0013.
  * 功能：网络检测
  */
 

@@ -24,6 +24,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 作者：陈灿
+ * 功能：简易的新闻客户端
+ */
 public class MainActivity extends AppCompatActivity {
 
     private List<Bean.Second.Third> list;
@@ -49,10 +53,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "网络连接不可用", Toast.LENGTH_SHORT).show();
         }
 
+        //更新新闻
         openNews();
 
+        //摇一摇更新列表
         updateNews();
 
+        //列表点击响应事件
         news_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,8 +76,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 
+    /**
+     * okhttp获取json数据
+     * 使用gson解析数据
+     */
     private void openNews() {
 
         final Gson gson = new Gson();
@@ -102,20 +114,27 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
+    /**
+     * 使用加速度传感器
+     * 摇一摇更新新闻
+     */
     public void updateNews() {
         SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    //监听加速度传感器输出信号
     private SensorEventListener listener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            float xValue = event.values[0];
-            float yValue = event.values[1];
-            float zValue = event.values[2];
+            //取加速度绝对值
+            float xValue = Math.abs(event.values[0]);
+            float yValue = Math.abs(event.values[1]);
+            float zValue = Math.abs(event.values[2]);
 
-            if (xValue > 12 || yValue >12 || zValue > 12){
+            //加速度超过12m/s^2，认为用户摇动手机，更新新闻列表
+            if (xValue > 12 || yValue > 12 || zValue > 12) {
                 openNews();
                 Toast.makeText(MainActivity.this, "已更新", Toast.LENGTH_SHORT).show();
             }

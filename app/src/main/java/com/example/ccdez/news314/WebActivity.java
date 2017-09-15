@@ -8,7 +8,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 /**
- * Created by ccdez on 2017/9/13 0013.
+ * 功能：接收Intent传过来的url，打开新闻信息
  */
 
 public class WebActivity extends Activity {
@@ -24,14 +24,20 @@ public class WebActivity extends Activity {
 
         webView = (WebView) findViewById(R.id.news_data);
         Intent intent = getIntent();
+
+        //接收url
         url = intent.getStringExtra("url");
+
         setWebView(url);
     }
 
     public void setWebView(String url) {
 
+        //js支持
         webView.getSettings().setJavaScriptEnabled(true);
+        //新窗口不打开内置浏览器
         webView.setWebViewClient(new WebViewClient());
+        //加载
         webView.loadUrl(url);
 
     }

@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 /**
- * Created by ccdez on 2017/9/13 0013.
  * 功能：新闻列表适配类
  */
 
@@ -52,19 +51,26 @@ public class NewsListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewModule viewModule ;
+        ViewModule viewModule;
         if (convertView == null) {
             viewModule = new ViewModule();
+
+            //获取列表项布局组件资源
             convertView = LayoutInflater.from(context).inflate(R.layout.listview_layout, null, false);
             viewModule.news_image = (ImageView) convertView.findViewById(R.id.news_image);
             viewModule.news_title = (TextView) convertView.findViewById(R.id.news_title);
             viewModule.news_source = (TextView) convertView.findViewById(R.id.news_source);
             viewModule.news_time = (TextView) convertView.findViewById(R.id.news_time);
+
             convertView.setTag(viewModule);
         }
 
         viewModule = (ViewModule) convertView.getTag();
+
+        //显示新闻图片
         Glide.with(context).load(list.get(position).thumbnail_pic_s).into(viewModule.news_image);
+
+        //将新闻标题等信息传入list
         viewModule.news_title.setText(list.get(position).title);
         viewModule.news_source.setText(list.get(position).author_name);
         viewModule.news_time.setText(list.get(position).date);

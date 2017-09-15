@@ -3,7 +3,7 @@ package com.example.ccdez.news314;
 import java.util.List;
 
 /**
- * Created by ccdez on 2017/9/13 0013.
+ * 公共类
  */
 
 public class Bean {
