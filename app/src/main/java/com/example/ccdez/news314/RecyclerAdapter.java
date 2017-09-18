@@ -12,6 +12,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+/**
+ * recyclerview适配器配置
+ */
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHolder> {
 
@@ -32,6 +35,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
 
         public MyHolder(View itemView) {
             super(itemView);
+
+            //获取资源组件
             re_image = (ImageView) itemView.findViewById(R.id.re_image);
             re_title = (TextView) itemView.findViewById(R.id.re_title);
             re_source = (TextView) itemView.findViewById(R.id.re_source);
@@ -50,6 +55,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
 
     @Override
     public void onBindViewHolder(final MyHolder holder, final int position) {
+
+        //配置组件显示数据
         Glide.with(context).load(list.get(position).thumbnail_pic_s).into(holder.re_image);
         holder.re_title.setText(list.get(position).title);
         holder.re_source.setText(list.get(position).author_name);

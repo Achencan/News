@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
             adapter.setItemClick(new RecyclerAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
+
+                    //启动WebActivity
                     Intent intent = new Intent(MainActivity.this, WebActivity.class);
                     String url = RecyclerAdapter.list.get(position).url;
                     intent.putExtra("url", url);
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recycler_layout);
 
+        //初始化recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
