@@ -1,1 +1,1 @@
-include ':app', ':sensortest'
+include ':app'

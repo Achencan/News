@@ -10,6 +10,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.telecom.Call;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -30,24 +35,43 @@ import okhttp3.Response;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private List<Bean.Second.Third> list;
+    private static List<Bean.Second.Third> list;
     private OkHttpClient client = new OkHttpClient();
-    private ListView news_list;
+    private RecyclerView recyclerView;
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             list = (List<Bean.Second.Third>) msg.obj;
-            news_list.setAdapter(new NewsListAdapter(list, MainActivity.this));
+            RecyclerAdapter adapter = new RecyclerAdapter(list, MainActivity.this);
+            adapter.setItemClick(new RecyclerAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    Intent intent = new Intent(MainActivity.this, WebActivity.class);
+                    String url = RecyclerAdapter.list.get(position).url;
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onItemLongClick(View view, int position) {
+
+                }
+            });
+            recyclerView.setAdapter(adapter);
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        news_list = (ListView) findViewById(R.id.list_item);
+        setContentView(R.layout.recycler_layout);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
         //判断网络状态
         if (!NetworkDetect.isNetworkConnected(this)) {
             Toast.makeText(this, "网络连接不可用", Toast.LENGTH_SHORT).show();
@@ -55,28 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
         //更新新闻
         openNews();
-
         //摇一摇更新列表
         updateNews();
-
-        //列表点击响应事件
-        news_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, WebActivity.class);
-                String url = NewsListAdapter.list.get(position).url;
-                intent.putExtra("url", url);
-                startActivity(intent);
-            }
-        });
-
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
     }
 
     /**
@@ -106,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                         message.obj = list;
                         handler.sendMessage(message);
                     }
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -134,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             float zValue = Math.abs(event.values[2]);
 
             //加速度超过12m/s^2，认为用户摇动手机，更新新闻列表
-            if (xValue > 12 || yValue > 12 || zValue > 12) {
+            if (xValue > 13 || yValue > 13 || zValue > 13) {
                 openNews();
                 Toast.makeText(MainActivity.this, "已更新", Toast.LENGTH_SHORT).show();
             }

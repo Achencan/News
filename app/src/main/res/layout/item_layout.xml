@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
+
+    <ImageView
+        android:id="@+id/re_image"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/re_title"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/news_title"
+        android:textSize="16sp"
+        android:layout_alignTop="@+id/re_image"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/re_image" />
+
+    <TextView
+        android:id="@+id/re_source"
+        android:layout_width="135dp"
+        android:layout_height="25dp"
+        android:text="@string/news_source"
+        android:textSize="12sp"
+        android:gravity="left|bottom"
+        android:layout_alignBaseline="@+id/re_time"
+        android:layout_alignBottom="@+id/re_time"
+        android:layout_toStartOf="@+id/re_time" />
+
+    <TextView
+        android:id="@+id/re_time"
+        android:layout_width="130dp"
+        android:layout_height="25dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/news_time"
+        android:gravity="right|bottom"
+        android:textSize="12sp"
+        android:layout_alignBottom="@+id/re_image"
+        android:layout_alignEnd="@+id/re_title" />
+
+</RelativeLayout>
