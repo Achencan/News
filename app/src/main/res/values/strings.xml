@@ -3,5 +3,6 @@
     <string name="news_title">title</string>
     <string name="news_source">source</string>
     <string name="news_time">time</string>
+    <string name="title_activity_main2">MainActivity2</string>
 
 </resources>
