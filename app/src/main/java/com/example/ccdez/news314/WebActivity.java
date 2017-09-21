@@ -34,7 +34,7 @@ public class WebActivity extends Activity {
     public void setWebView(String url) {
 
         //js支持
-        webView.getSettings().setJavaScriptEnabled(true);
+//        webView.getSettings().setJavaScriptEnabled(true);
         //新窗口不打开内置浏览器
         webView.setWebViewClient(new WebViewClient());
         //加载

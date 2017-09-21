@@ -72,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         //初始化recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
@@ -93,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
         //更新新闻
         openNews();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         //摇一摇更新列表
         updateNews();
     }
@@ -106,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.setting:
-                Toast.makeText(this, "setting", Toast.LENGTH_SHORT).show();
+            case R.id.finish:
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
