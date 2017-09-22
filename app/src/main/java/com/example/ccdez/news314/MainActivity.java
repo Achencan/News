@@ -35,7 +35,7 @@ import okhttp3.Response;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private static List<Bean.Second.Third> list;
+    private List<Bean.Second.Third> list;
     private OkHttpClient client = new OkHttpClient();
     private RecyclerView recyclerView;
 
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Gson gson = new Gson();
         final Request request = new Request.Builder().get()
-                .url("http://v.juhe.cn/toutiao/index?type=keji&key=65d4c89f2460e131bd8b288f3f70bff6")
+                .url("http://v.juhe.cn/toutiao/index?type=keji&key=110943cb840fba1bc6c341239ab2ed2f")
                 .build();
         new Thread(new Runnable() {
             @Override

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">一点新闻</string>
+    <string name="app_name">oneNews</string>
     <string name="news_title">title</string>
     <string name="news_source">source</string>
     <string name="news_time">time</string>
