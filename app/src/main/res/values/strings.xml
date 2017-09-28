@@ -6,4 +6,13 @@
     <string name="title_activity_main2">MainActivity2</string>
     <string name="finish">退出</string>
 
+    <string name="top">头条</string>
+    <string name="keji">科技</string>
+    <string name="tiyu">体育</string>
+    <string name="yule">娱乐</string>
+    <string name="shehui">社会</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

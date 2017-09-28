@@ -7,11 +7,9 @@ import java.util.List;
  */
 
 public class Bean {
-    public String reason;
     public Second result;
 
     public class Second {
-        public String stat;
         public List<Third> data;
 
         public class Third {

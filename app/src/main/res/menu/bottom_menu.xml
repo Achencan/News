@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/top"
+        android:icon="@drawable/top_icon"
+        android:title="@string/top"></item>
+
+    <item
+        android:id="@+id/keji"
+        android:icon="@drawable/keji_icon"
+        android:title="@string/keji"></item>
+
+    <item
+        android:id="@+id/tiyu"
+        android:icon="@drawable/tiyu_icon"
+        android:title="@string/tiyu"></item>
+
+    <item
+        android:id="@+id/yule"
+        android:icon="@drawable/yule_icon"
+        android:title="@string/yule"></item>
+
+    <item
+        android:id="@+id/shehui"
+        android:icon="@drawable/shehui_icon"
+        android:title="@string/shehui"></item>
+
+</menu>

@@ -1,33 +1,21 @@
 package com.example.ccdez.news314;
 
-import android.content.Context;
-import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.os.Handler;
-import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.example.ccdez.news314.com.news.fragment.NewsDetail;
+import com.example.ccdez.news314.com.news.fragment.NewsKeji;
+import com.example.ccdez.news314.com.news.fragment.NewsShehui;
+import com.example.ccdez.news314.com.news.fragment.NewsTiyu;
+import com.example.ccdez.news314.com.news.fragment.NewsTop;
+import com.example.ccdez.news314.com.news.fragment.NewsYule;
 
 /**
  * 作者：陈灿
@@ -35,72 +23,99 @@ import okhttp3.Response;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private List<Bean.Second.Third> list;
-    private OkHttpClient client = new OkHttpClient();
-    private RecyclerView recyclerView;
+    private int positon = 0;
+    private NewsTop newsTop;
+    private NewsKeji newsKeji;
+    private NewsTiyu newsTiyu;
+    private NewsYule newsYule;
+    private NewsShehui newsShehui;
+    private Fragment[] fragments;
 
-    private Handler handler = new Handler() {
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            list = (List<Bean.Second.Third>) msg.obj;
-            RecyclerAdapter adapter = new RecyclerAdapter(list, MainActivity.this);
-            adapter.setItemClick(new RecyclerAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-
-                    //启动WebActivity
-                    Intent intent = new Intent(MainActivity.this, WebActivity.class);
-                    String url = RecyclerAdapter.list.get(position).url;
-                    intent.putExtra("url", url);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onItemLongClick(View view, int position) {
-
-                }
-            });
-            recyclerView.setAdapter(adapter);
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.top:
+                    if (positon != 0) {
+                        switchFrament(positon, 0);
+                        positon = 0;
+                    }
+                    return true;
+                case R.id.keji:
+                    if (positon != 1) {
+                        switchFrament(positon, 1);
+                        positon = 1;
+                    }
+                    return true;
+                case R.id.tiyu:
+                    if (positon != 2) {
+                        switchFrament(positon, 2);
+                        positon = 2;
+                    }
+                    return true;
+                case R.id.yule:
+                    if (positon != 3) {
+                        switchFrament(positon, 3);
+                        positon = 3;
+                    }
+                    return true;
+                case R.id.shehui:
+                    if (positon != 4) {
+                        switchFrament(positon, 4);
+                        positon = 4;
+                    }
+                    return true;
+            }
+            return false;
         }
+
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.recycler_layout);
-
         setContentView(R.layout.activity_main);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-        //初始化recyclerview
-        recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         //判断网络状态
         if (!NetworkDetect.isNetworkConnected(this)) {
             Toast.makeText(this, "网络连接不可用", Toast.LENGTH_SHORT).show();
         }
 
-        //更新新闻
-        openNews();
+        BottomNavigationView bottomMenu = (BottomNavigationView) findViewById(R.id.bottom);
+        bottomMenu.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        initFragments();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //摇一摇更新列表
-        updateNews();
+    /**
+     * 切换Fragment
+     *
+     * @param lastIndex 上个显示Fragment的索引
+     * @param index     需要显示的Fragment的索引
+     */
+    public void switchFrament(int lastIndex, int index) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.hide(fragments[lastIndex]);
+        if (!fragments[index].isAdded()) {
+            transaction.add(R.id.content, fragments[index]);
+        }
+        transaction.show(fragments[index]).commitAllowingStateLoss();
+    }
+
+    private void initFragments() {
+        newsTop = new NewsTop();
+        newsKeji = new NewsKeji();
+        newsTiyu = new NewsTiyu();
+        newsYule = new NewsYule();
+        newsShehui = new NewsShehui();
+        fragments = new Fragment[]{newsTop, newsKeji, newsTiyu, newsYule, newsShehui};
+        positon = 0;
+        getFragmentManager().beginTransaction()
+                .add(R.id.content, newsTop)
+                .show(newsTop)
+                .commit();
     }
 
     @Override
@@ -111,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.finish:
                 finish();
                 break;
@@ -119,69 +134,5 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * okhttp获取json数据
-     * 使用gson解析数据
-     */
-    private void openNews() {
 
-        final Gson gson = new Gson();
-        final Request request = new Request.Builder().get()
-                .url("http://v.juhe.cn/toutiao/index?type=keji&key=110943cb840fba1bc6c341239ab2ed2f")
-                .build();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Response response;
-                try {
-                    response = client.newCall(request).execute();
-                    if (response.isSuccessful()) {
-                        String content = response.body().string();
-                        Bean bean = gson.fromJson(content, Bean.class);
-                        Bean.Second second = bean.result;
-
-                        list = second.data;
-
-                        Message message = handler.obtainMessage();
-                        message.obj = list;
-                        handler.sendMessage(message);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
-    /**
-     * 使用加速度传感器
-     * 摇一摇更新新闻
-     */
-    public void updateNews() {
-        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    //监听加速度传感器输出信号
-    private SensorEventListener listener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            //取加速度绝对值
-            float xValue = Math.abs(event.values[0]);
-            float yValue = Math.abs(event.values[1]);
-            float zValue = Math.abs(event.values[2]);
-
-            //加速度超过12m/s^2，认为用户摇动手机，更新新闻列表
-            if (xValue > 13 || yValue > 13 || zValue > 13) {
-                openNews();
-                Toast.makeText(MainActivity.this, "已更新", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-    };
 }
