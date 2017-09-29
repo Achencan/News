@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +39,7 @@ import okhttp3.Response;
 
 public class NewsTiyu extends Fragment {
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private List<Bean.Second.Third> list;
     private OkHttpClient client = new OkHttpClient();
 
@@ -45,7 +47,8 @@ public class NewsTiyu extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            list = (List<Bean.Second.Third>) msg.obj;
+//            list = (List<Bean.Second.Third>) msg.obj;
+            list.addAll((List<Bean.Second.Third>) msg.obj);
             RecyclerAdapter adapter = new RecyclerAdapter(list, getActivity());
             adapter.setItemClick(new RecyclerAdapter.OnItemClickListener() {
                 @Override
@@ -64,23 +67,47 @@ public class NewsTiyu extends Fragment {
 
                 }
             });
+            adapter.notifyDataSetChanged();
             recyclerView.setAdapter(adapter);
+            swipeRefreshLayout.setRefreshing(false);
+
         }
     };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recycler_layout, container, false);
+        View view = inflater.inflate(R.layout.rec_layout, container, false);
         // 初始化recyclerview
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-        //更新新闻
-        openNews("http://v.juhe.cn/toutiao/index?type=tiyu&key=110943cb840fba1bc6c341239ab2ed2f");
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.blueStatus));
+
+//        //更新新闻
+//        openNews("http://v.juhe.cn/toutiao/index?type=tiyu&key=110943cb840fba1bc6c341239ab2ed2f");
+
+        updateNews();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //更新新闻
+        openNews("http://v.juhe.cn/toutiao/index?type=tiyu&key=110943cb840fba1bc6c341239ab2ed2f");
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                //更新
+                openNews("http://v.juhe.cn/toutiao/index?type=tiyu&key=110943cb840fba1bc6c341239ab2ed2f");
+
+            }
+        });
     }
 
     /**
@@ -138,7 +165,7 @@ public class NewsTiyu extends Fragment {
 
             //加速度超过12m/s^2，认为用户摇动手机，更新新闻列表
             if (xValue > 13 || yValue > 13 || zValue > 13) {
-                openNews("http://v.juhe.cn/toutiao/index?type=keji&key=110943cb840fba1bc6c341239ab2ed2f");
+                openNews("http://v.juhe.cn/toutiao/index?type=tiyu&key=110943cb840fba1bc6c341239ab2ed2f");
                 Toast.makeText(getActivity(), "已更新", Toast.LENGTH_SHORT).show();
             }
         }

@@ -48,7 +48,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         MyHolder holder = new MyHolder(LayoutInflater.from(context)
-                .inflate(R.layout.item_layout, parent, false));
+                .inflate(R.layout.item, parent, false));
 
         return holder;
     }

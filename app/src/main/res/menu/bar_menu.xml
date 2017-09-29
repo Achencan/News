@@ -2,9 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.ccdez.news314.MainActivity2">
+    tools:context="com.example.ccdez.news314.MainActivity">
 
     <item
         android:id="@+id/finish"
-        android:title="@string/finish" />
+        android:title="@string/finish"
+        />
 </menu>

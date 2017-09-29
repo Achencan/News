@@ -4,6 +4,7 @@
     <string name="news_source">source</string>
     <string name="news_time">time</string>
     <string name="title_activity_main2">MainActivity2</string>
+    <string name="actionbar_title">oneNews</string>
     <string name="finish">退出</string>
 
     <string name="top">头条</string>

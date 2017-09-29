@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.ccdez.news314.MainActivity">
+    
 
     <FrameLayout
         android:id="@+id/content"
