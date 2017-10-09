@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.example.ccdez.news314.Bean;
 import com.example.ccdez.news314.R;
 import com.example.ccdez.news314.RecyclerAdapter;
-import com.example.ccdez.news314.WebActivity;
+import com.example.ccdez.news314.web.WebActivity;
 import com.google.gson.Gson;
 
 import java.io.IOException;

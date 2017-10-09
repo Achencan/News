@@ -2,8 +2,11 @@ package com.example.ccdez.news314;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +21,7 @@ import com.example.ccdez.news314.com.news.fragment.NewsShehui;
 import com.example.ccdez.news314.com.news.fragment.NewsTiyu;
 import com.example.ccdez.news314.com.news.fragment.NewsTop;
 import com.example.ccdez.news314.com.news.fragment.NewsYule;
+import com.example.ccdez.news314.web.FeedBack;
 
 /**
  * 作者：陈灿
@@ -133,9 +137,34 @@ public class MainActivity extends AppCompatActivity {
             case R.id.finish:
                 finish();
                 break;
+            case R.id.feedback:
+                feedBack();
+                break;
+            case R.id.about:
+                aboutApp();
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    //信息反馈
+    public void feedBack(){
+        Intent intent = new Intent(MainActivity.this, FeedBack.class);
+        startActivity(intent);
+    }
+
+    //对话框显示软件信息
+    public void aboutApp(){
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                .setIcon(R.drawable.news_icon)
+                .setTitle("应用信息")
+                .setMessage("一个简洁的新闻浏览应用"+"\n"+"遵循MD设计风格"+"\n"+"卡片式展示新闻列表"+"\n"
+                +"流畅的浏览体验"+"\n"+"作者：Achencan"+"\n"+"邮箱：cc.geogle@gmail.com"
+                +"\n"+"有问题请发送至作者邮箱");
+        dialog.create();
+        dialog.show();
+    }
 
 }

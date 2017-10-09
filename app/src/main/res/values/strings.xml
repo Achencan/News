@@ -5,7 +5,10 @@
     <string name="news_time">time</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="actionbar_title">oneNews</string>
+
     <string name="finish">退出</string>
+    <string name="about">关于</string>
+    <string name="feedback">反馈</string>
 
     <string name="top">头条</string>
     <string name="keji">科技</string>

@@ -1,4 +1,4 @@
-package com.example.ccdez.news314;
+package com.example.ccdez.news314.web;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.example.ccdez.news314.R;
 
 /**
  * 功能：接收Intent传过来的url，打开新闻信息
